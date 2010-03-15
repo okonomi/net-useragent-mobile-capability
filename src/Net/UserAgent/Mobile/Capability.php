@@ -6,9 +6,9 @@ class Net_UserAgent_Mobile_Capability
     private $_useragent;
 
 
-    function __construct(Net_UserAgent_Mobile &$useragent)
+    function __construct(Net_UserAgent_Mobile_Common $useragent)
     {
-        $this->_useragent = & $useragent;
+        $this->_useragent = $useragent;
     }
 
     public function get($name)
