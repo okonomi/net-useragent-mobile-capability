@@ -13,25 +13,49 @@ class Net_UserAgent_Mobile_CapabilityTest extends PHPUnit_Framework_TestCase
         $fixture = array(
             array(
                 'device'    => 'D501i',
-                'useragent' => 'DoCoMo/1.0/D501i',
+                'server'    => array(
+                    'HTTP_USER_AGENT' => 'DoCoMo/1.0/D501i',
+                ),
                 'property'  => array(
-                    'browser.html.table'        => false,
-                    'browser.html.css'          => false,
-                    'browser.html.css.external' => false,
-                    'device.flash'              => false,
+                    'browser.html.table'   => false,
+                    'browser.css'          => false,
+                    'browser.css.external' => false,
+                    'device.flash'         => false,
+                ),
+            ),
+            array(
+                'device'    => 'P906i',
+                'server'    => array(
+                    'HTTP_USER_AGENT' => 'DoCoMo/2.0 P906i(c100;TB;W24H15)',
+                ),
+                'property'  => array(
+                    'browser.html.table'   => true,
+                    'browser.css'          => true,
+                    'browser.css.external' => false,
+                    'device.flash'         => true,
                 ),
             ),
         );
 
         foreach ($fixture as $data) {
-            $_SERVER['HTTP_USER_AGENT'] = $data['useragent'];
+            $server_ = $_SERVER;
+
+            $_SERVER = $data['server'];
 
             $ua = Net_UserAgent_Mobile::factory();
             $cap = new Net_UserAgent_Mobile_Capability($ua);
 
             foreach ($data['property'] as $name => $value) {
-                $this->assertEquals($cap->get($name), $value);
+                try {
+                    $this->assertEquals($cap->get($name), $value);
+                } catch (PHPUnit_Framework_ExpectationFailedException $e) {
+                    echo "{$data['device']} $name", PHP_EOL;
+                    throw $e;
+                }
+
             }
+
+            $_SERVER = $server_;
         }
     }
 }
