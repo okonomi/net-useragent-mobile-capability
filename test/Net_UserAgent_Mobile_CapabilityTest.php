@@ -58,4 +58,16 @@ class Net_UserAgent_Mobile_CapabilityTest extends PHPUnit_Framework_TestCase
             $_SERVER = $server_;
         }
     }
+
+    /**
+     * @expectedException Net_UserAgent_Mobile_Capability_Exception
+     */
+    public function testGetThrowException()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'DoCoMo/1.0/D501i';
+        $ua = Net_UserAgent_Mobile::factory();
+        $cap = new Net_UserAgent_Mobile_Capability($ua);
+
+        $ret = $cap->get('aaa');
+    }
 }

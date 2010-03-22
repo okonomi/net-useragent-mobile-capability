@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Net/UserAgent/Mobile/Capability/Exception.php';
+
 
 class Net_UserAgent_Mobile_Capability
 {
@@ -11,6 +13,9 @@ class Net_UserAgent_Mobile_Capability
         $this->_useragent = $useragent;
     }
 
+    /**
+     * @throws Net_UserAgent_Mobile_Capability_Exception
+     */
     public function get($name)
     {
         switch ($name) {
@@ -84,6 +89,9 @@ class Net_UserAgent_Mobile_Capability
                 return substr($this->_useragent->getHeader('X-UP-DEVCAP-MULTIMEDIA'), 12, 1) === '1';
             }
             return null;
+
+        default:
+            throw new Net_UserAgent_Mobile_Capability_Exception("no property: $name");
         }
 
         return null;
