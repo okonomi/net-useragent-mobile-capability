@@ -101,7 +101,7 @@ class Net_UserAgent_Mobile_Capability
                 return false;
 
             case $this->_useragent->isEZweb():
-                return substr($this->_useragent->getHeader('X-UP-DEVCAP-MULTIMEDIA'), 12, 1) === '1';
+                return (int)substr($this->_useragent->getHeader('X-UP-DEVCAP-MULTIMEDIA'), 12, 1) >= 1;
             }
             return null;
 

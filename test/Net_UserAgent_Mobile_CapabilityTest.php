@@ -66,6 +66,23 @@ class Net_UserAgent_Mobile_CapabilityTest extends PHPUnit_Framework_TestCase
                     'device.flash'         => true,
                 ),
             ),
+            array(
+                'device'    => 'K002',
+                'server'    => array(
+                    'HTTP_USER_AGENT'               => 'KDDI-KC3O UP.Browser/6.2.0.15.1.1 (GUI) MMP/2.0',
+                    'HTTP_X_UP_DEVCAP_SCREENDEPTH'  => '16,RGB565',
+                    'HTTP_X_UP_DEVCAP_SCREENPIXELS' => '240,348',
+                    'HTTP_X_UP_DEVCAP_ISCOLOR'      => '1',
+                    'HTTP_X_UP_DEVCAP_MULTIMEDIA'   => 'A300961223402120',
+                ),
+                'property'  => array(
+                    'browser.html.table'   => true,
+                    'browser.css'          => true,
+                    'browser.css.external' => true,
+                    'browser.vga'          => false,
+                    'device.flash'         => true,
+                ),
+            ),
         );
 
         foreach ($fixture as $data) {
