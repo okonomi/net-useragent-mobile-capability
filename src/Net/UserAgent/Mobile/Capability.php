@@ -59,6 +59,20 @@ class Net_UserAgent_Mobile_Capability
             }
             return null;
 
+        case 'browser.vga':
+            switch (true) {
+            case $this->_useragent->isDoCoMo():
+                // iモードブラウザ2.0のVGAモードは無視
+                return false;
+
+            case $this->_useragent->isSoftBank():
+                return $this->_useragent->getDisplay()->getWidth() >= 480;
+
+            case $this->_useragent->isEZweb():
+                return false;
+            }
+            return null;
+
         case 'device.flash':
             // @see http://ke-tai.org/blog/2008/03/18/flashfunc/
             switch (true) {
