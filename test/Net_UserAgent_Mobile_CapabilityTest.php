@@ -35,6 +35,18 @@ class Net_UserAgent_Mobile_CapabilityTest extends PHPUnit_Framework_TestCase
                     'device.flash'         => true,
                 ),
             ),
+            array(
+                'device'    => 'P-07A',
+                'server'    => array(
+                    'HTTP_USER_AGENT' => 'DoCoMo/2.0 P07A3(c500;TB;W24H15)',
+                ),
+                'property'  => array(
+                    'browser.html.table'   => true,
+                    'browser.css'          => true,
+                    'browser.css.external' => true,
+                    'device.flash'         => true,
+                ),
+            ),
         );
 
         foreach ($fixture as $data) {

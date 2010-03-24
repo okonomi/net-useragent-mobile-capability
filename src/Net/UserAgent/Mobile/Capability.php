@@ -22,7 +22,7 @@ class Net_UserAgent_Mobile_Capability
         case 'browser.html.table':
             switch (true) {
             case $this->_useragent->isDoCoMo():
-                return (float)$this->_useragent->getHTMLVersion() >= 6.0;
+                return (float)$this->_useragent->getHTMLVersion() >= 6.0 || (float)$this->_useragent->getBrowserVersion() >= 2.0;
 
             case $this->_useragent->isSoftBank():
                 return true;
@@ -35,7 +35,8 @@ class Net_UserAgent_Mobile_Capability
         case 'browser.css':
             switch (true) {
             case $this->_useragent->isDoCoMo():
-                return (float)$this->_useragent->getHTMLVersion() >= 4.0 && $this->_useragent->isFOMA();
+                return ((float)$this->_useragent->getHTMLVersion() >= 4.0 || (float)$this->_useragent->getBrowserVersion() >= 2.0)
+                        && $this->_useragent->isFOMA();
 
             case $this->_useragent->isSoftBank():
                 return $this->_useragent->isType3GC();
