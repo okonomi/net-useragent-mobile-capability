@@ -18,90 +18,93 @@ class Net_UserAgent_Mobile_Capability
      */
     public function get($name)
     {
+        $ua = $this->_useragent;
+        $carrier = $ua->getCarrierShortName();
+
         switch ($name) {
         case 'browser.html.table':
-            switch (true) {
-            case $this->_useragent->isDoCoMo():
-                return (float)$this->_useragent->getHTMLVersion() >= 6.0 || (float)$this->_useragent->getBrowserVersion() >= 2.0;
+            switch ($carrier) {
+            case 'I':
+                return (float)$ua->getHTMLVersion() >= 6.0 || (float)$ua->getBrowserVersion() >= 2.0;
 
-            case $this->_useragent->isSoftBank():
+            case 'S':
                 return true;
 
-            case $this->_useragent->isEZweb():
-                return $this->_useragent->isWAP2() === true;
+            case 'E':
+                return $ua->isWAP2() === true;
             }
             return null;
 
         case 'browser.css':
-            switch (true) {
-            case $this->_useragent->isDoCoMo():
-                return ((float)$this->_useragent->getHTMLVersion() >= 4.0 || (float)$this->_useragent->getBrowserVersion() >= 2.0)
-                        && $this->_useragent->isFOMA();
+            switch ($carrier) {
+            case 'I':
+                return ((float)$ua->getHTMLVersion() >= 4.0 || (float)$ua->getBrowserVersion() >= 2.0)
+                        && $ua->isFOMA();
 
-            case $this->_useragent->isSoftBank():
-                return $this->_useragent->isType3GC();
+            case 'S':
+                return $ua->isType3GC();
 
-            case $this->_useragent->isEZweb():
-                return $this->_useragent->isWAP2() === true;
+            case 'E':
+                return $ua->isWAP2() === true;
             }
             return null;
 
         case 'browser.css.external':
-            switch (true) {
-            case $this->_useragent->isDoCoMo():
-                return (float)$this->_useragent->getBrowserVersion() >= 2.0;
+            switch ($carrier) {
+            case 'I':
+                return (float)$ua->getBrowserVersion() >= 2.0;
 
-            case $this->_useragent->isSoftBank():
-                return $this->_useragent->isType3GC();
+            case 'S':
+                return $ua->isType3GC();
 
-            case $this->_useragent->isEZweb():
-                return $this->_useragent->isWAP2() === true;
+            case 'E':
+                return $ua->isWAP2() === true;
             }
             return null;
 
         case 'browser.vga':
-            switch (true) {
-            case $this->_useragent->isDoCoMo():
+            switch ($carrier) {
+            case 'I':
                 // iモードブラウザ2.0のVGAモードは無視
                 return false;
 
-            case $this->_useragent->isSoftBank():
-                return $this->_useragent->getDisplay()->getWidth() >= 480;
+            case 'S':
+                return $ua->getDisplay()->getWidth() >= 480;
 
-            case $this->_useragent->isEZweb():
+            case 'E':
                 return false;
             }
             return null;
 
         case 'device.flash':
             // @see http://ke-tai.org/blog/2008/03/18/flashfunc/
-            switch (true) {
-            case $this->_useragent->isDoCoMo():
-                if ($this->_useragent->isFOMA()) {
-                    if ($this->_useragent->getSeries() === 'FOMA') {
+            switch ($carrier) {
+            case 'I':
+                if ($ua->isFOMA()) {
+                    if ($ua->getSeries() === 'FOMA') {
                         return false;
                     }
-                    if (in_array($this->_useragent->getModel(), array('NM850iG', 'F880iES', 'N600i', 'L600i', 'L601i', 'L602i'))) {
+                    if (in_array($ua->getModel(), array('NM850iG', 'F880iES', 'N600i', 'L600i', 'L601i', 'L602i'))) {
                         return false;
                     }
                     return true;
                 } else {
-                    return in_array($this->_useragent->getSeries(), array('505i', '506i'));
+                    return in_array($ua->getSeries(), array('505i', '506i'));
                 }
 
-            case $this->_useragent->isSoftBank():
-                if ($this->_useragent->isType3GC()) {
-                    if ($this->_useragent->getName() === 'Vodafone') {
-                        return in_array($this->_useragent->getVendor(), array('SH', 'SE'));
+            case 'S':
+                if ($ua->isType3GC()) {
+                    if ($ua->getName() === 'Vodafone') {
+                        return in_array($ua->getVendor(), array('SH', 'SE'));
                     }
-                    if ($this->_useragent->getName() === 'SoftBank') {
-                       return $this->_useragent->getVendor() !== 'SC';
+                    if ($ua->getName() === 'SoftBank') {
+                       return $ua->getVendor() !== 'SC';
                     }
                 }
                 return false;
 
-            case $this->_useragent->isEZweb():
-                return (int)substr($this->_useragent->getHeader('X-UP-DEVCAP-MULTIMEDIA'), 12, 1) >= 1;
+            case 'E':
+                return (int)substr($ua->getHeader('X-UP-DEVCAP-MULTIMEDIA'), 12, 1) >= 1;
             }
             return null;
 
